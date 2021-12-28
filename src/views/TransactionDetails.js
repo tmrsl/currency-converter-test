@@ -60,7 +60,10 @@ const TransactionDetails = (props) => {
         <div>
           Date:
           <span>
-            {transaction.date.toLocaleDateString("en-GB", dateOptions)}
+            {new Date(transaction.date).toLocaleDateString(
+              "en-GB",
+              dateOptions
+            )}
           </span>
         </div>
       </div>

@@ -52,6 +52,9 @@ const Converter = (props) => {
     };
 
     props.onNewTransaction(newTransaction);
+
+    setSendQty("");
+    setReceiveQty("");
   };
 
   return (

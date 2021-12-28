@@ -17,6 +17,7 @@ const Transactions = (props) => {
             sendCurrency={t.sendCurrency}
             receiveQty={t.receiveQty}
             receiveCurrency={t.receiveCurrency}
+            isSent={t.isSent && t.isSent}
             key={t.id}
             onClick={() => clickHandler(t.id)}
           />

@@ -2,6 +2,7 @@
   "name": "react-test-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://tmrsl.github.io/currency-converter-test",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",

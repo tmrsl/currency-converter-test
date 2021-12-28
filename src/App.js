@@ -1,57 +1,67 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { http } from "./utils";
-import AppButton from "./components/AppButton";
-import AppInput from "./components/AppInput";
-import AppSelect from "./components/AppSelect";
+
+import Converter from "./views/Converter";
+import Transactions from "./views/Transactions";
 
 function App() {
   const BASE_URL = "https://freecurrencyapi.net/api/v2/latest?";
   const API_KEY = "a19652b0-63e5-11ec-84e4-c18806f5efbf";
 
-  console.log("here");
-  http(BASE_URL, { apikey: API_KEY });
+  const [tab, setTab] = useState("Converter");
+  const [transactions, setTransaction] = useState([]);
+  const [currencies, setCurrencies] = useState({});
+  const [baseCurrency, setBaseCurrency] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const testHandler = (e) => {
-    console.log(e);
+  const fetchCurrencies = (base_currency = "USD") => {
+    setIsLoading(true);
+
+    http(BASE_URL, { apikey: API_KEY, base_currency })
+      .then(({ data, query: { base_currency } }) => {
+        setCurrencies({ [base_currency]: 1, ...data });
+        setBaseCurrency(base_currency);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
-  // const [transactions, setTransaction] = useState([]);
+  const newTransactionHandler = (newTransaction) => {
+    setTransaction((t) => [newTransaction, ...t]);
+  };
+
+  useEffect(() => {
+    console.log("here");
+    fetchCurrencies();
+  }, []);
 
   return (
     <div className="flex flex-col h-full w-full">
       <div className="flex items-center flex-grow px-4">
-        {/* Converter */}
-        {/* <div className="w-full">
-          <div className="flex w-full">
-            <input
-              className="flex-shrink min-w-1 p-4 text-2xl text-slate-900 placeholder:text-slate-300 rounded-r-none rounded-l-sm border border-t-slate-300 outline-none"
-              type="number"
-              placeholder="Enter amount"
+        {!!baseCurrency &&
+          (tab === "Converter" ? (
+            <Converter
+              currencies={currencies}
+              baseCurrency={baseCurrency}
+              onCurrencyChange={fetchCurrencies}
+              onNewTransaction={newTransactionHandler}
             />
-            <select className="p-4 text-slate-900 text-2xl rounded-l-none rounded-r-sm border border-t-slate-300 border-l-0 outline-none">
-              <option value="USD">USD</option>
-            </select>
-          </div>
-        </div> */}
-        <div className="w-full">
-          <div className="flex w-full">
-            <AppInput
-              placeholder="Enter amount"
-              value={4}
-              onChange={testHandler}
-            />
-            <AppSelect value={4} items={[1, 2, 3]} onChange={testHandler} />
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <AppButton>Create transaction</AppButton>
+          ) : (
+            <Transactions items={transactions} />
+          ))}
       </div>
 
       <nav className="flex items-center justify-evenly h-20 w-full bg-stone-50 border border-t-slate-200">
-        <button className="text-blue-500">Converter</button>
-        <button className="text-slate-900">Transactions</button>
+        <button className="text-blue-500" onClick={() => setTab("Converter")}>
+          Converter
+        </button>
+        <button
+          className="text-slate-900"
+          onClick={() => setTab("Transactions")}
+        >
+          Transactions
+        </button>
       </nav>
     </div>
   );

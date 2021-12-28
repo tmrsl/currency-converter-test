@@ -38,7 +38,7 @@ function App() {
 
   return (
     <div className="flex flex-col h-full w-full">
-      <div className="flex items-center flex-grow px-4">
+      <div className="flex items-center flex-grow overflow-y-hidden">
         {!!baseCurrency &&
           (tab === "Converter" ? (
             <Converter

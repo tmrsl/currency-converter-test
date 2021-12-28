@@ -49,6 +49,7 @@ const Converter = (props) => {
       receiveQty,
       receiveCurrency,
       date: new Date(),
+      id: Date.now(),
     };
 
     props.onNewTransaction(newTransaction);
@@ -58,7 +59,7 @@ const Converter = (props) => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full px-4">
       <form onSubmit={submitHandler}>
         <p className="text-slate-800 text-lg">Send</p>
         <div className="flex w-full mb-4">

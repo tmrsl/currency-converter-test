@@ -1,8 +1,12 @@
 import TransactionListItem from "../components/transactions/TransactionListItem";
+import { useNavigate } from "react-router-dom";
 
 const Transactions = (props) => {
+  const navigate = useNavigate();
+
   const clickHandler = (id) => {
     console.log("here", id);
+    navigate("/transactions/" + id);
   };
 
   return (

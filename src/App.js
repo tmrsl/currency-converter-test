@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { http } from "./utils";
 
 import Converter from "./views/Converter";
@@ -11,6 +11,7 @@ function App() {
   const BASE_URL = "https://freecurrencyapi.net/api/v2/latest?";
   const API_KEY = "a19652b0-63e5-11ec-84e4-c18806f5efbf";
 
+  const navigate = useNavigate();
   const [transactions, setTransaction] = useState([]);
   const [currencies, setCurrencies] = useState({});
   const [baseCurrency, setBaseCurrency] = useState("");
@@ -31,6 +32,24 @@ function App() {
 
   const newTransactionHandler = (newTransaction) => {
     setTransaction((t) => [newTransaction, ...t]);
+  };
+
+  const removeTransactionHandler = (tId) => {
+    setTransaction((oldTransactions) =>
+      oldTransactions.filter((t) => t.id !== tId)
+    );
+
+    navigate("/transactions");
+  };
+
+  const sendTransactionHandler = ({ transactionId, bankAccount }) => {
+    setTransaction((oldTransactions) =>
+      oldTransactions.map((t) =>
+        t.id === transactionId ? { ...t, bankAccount, isSent: true } : t
+      )
+    );
+
+    navigate("/transactions");
   };
 
   useEffect(() => {
@@ -60,7 +79,13 @@ function App() {
 
           <Route
             path="transactions/:transactionId"
-            element={<TransactionDetails />}
+            element={
+              <TransactionDetails
+                items={transactions}
+                onRemove={removeTransactionHandler}
+                onSend={sendTransactionHandler}
+              />
+            }
           />
         </Routes>
       </div>

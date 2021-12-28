@@ -5,7 +5,7 @@ const AppSelect = (props) => {
 
   return (
     <select
-      className="p-4 text-slate-900 text-2xl rounded-l-none rounded-r-sm border border-t-slate-300 border-l-0 outline-none"
+      className="p-4 text-slate-900 text-2xl rounded-l-none rounded-r-sm border border-slate-300 border-l-0 outline-none"
       value={props.value}
       onChange={selectChangeHandler}
     >

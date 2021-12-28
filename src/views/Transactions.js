@@ -5,7 +5,6 @@ const Transactions = (props) => {
   const navigate = useNavigate();
 
   const clickHandler = (id) => {
-    console.log("here", id);
     navigate("/transactions/" + id);
   };
 

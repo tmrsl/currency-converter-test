@@ -1,4 +1,4 @@
-- DEMO [https://tmrsl.github.io/currency-converter-test/]
+- [LIVE DEMO LINK](https://tmrsl.github.io/currency-converter-test/)
 
 # Getting Started with Create React App
 
